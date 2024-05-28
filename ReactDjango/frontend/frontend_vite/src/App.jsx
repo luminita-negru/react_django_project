@@ -45,16 +45,22 @@ import {Navigation} from './component/navigation';
 import {Logout} from './component/logout';
 import {Register} from './component/register';
 import {StockDataComponent} from './component/StockDataComponent';
+import StockChecker from './component/StockChecker';
+import FinancialNews from './component/FinancialNews';
+import StockTicker from './component/StockTicker';
 
 function App() {
     return (
       <BrowserRouter>
-        <Navigation></Navigation>
+        <Navigation />
+        <StockTicker />
         <Routes>
           <Route path="/frontend" element={<StockDataComponent/>}/>
           <Route path="/frontend/login" element={<Login/>}/>
           <Route path="/frontend/logout" element={<Logout/>}/>
           <Route path="/frontend/register" element={<Register/>}/>
+          <Route path="/frontend/stock" element={<StockChecker/>}/>
+          <Route path="/frontend/news" element={<FinancialNews/>}/>
         </Routes>
       </BrowserRouter>
     )

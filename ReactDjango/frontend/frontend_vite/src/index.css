@@ -4,13 +4,14 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(8, 8, 8, 0.87);
   background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-top: 56px; /* Adjust according to the navbar height */
 }
 
 a {
@@ -28,6 +29,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #242424; /* Ensure dark background */
+  color: rgba(77, 31, 114, 0.87); /* Ensure text color */
 }
 
 h1 {
@@ -54,10 +57,173 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  background-color: #343a40; /* Dark background for the navbar */
+  font-size: 1.8em;
+}
+
+.navbar-brand,
+.nav-link {
+  color: #8a2be2 
+}
+
+.chart-container {
+  width: 100%; /* Full width */
+  height: 5000px; /* Desired height */
+  margin: 0 auto; /* Center the chart */
+}
+
+.auth-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #242424; /* Dark background */
+}
+
+.auth-form {
+  background: #343a40; /* Dark form background */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px; /* Adjust width as needed */
+}
+
+.auth-form-title {
+  color: rgba(75,192,192,1);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  color: #e0e0e0; /* Light color for labels */
+}
+
+.form-group input {
+  background: #1a1a1a;
+  color: #e0e0e0;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.form-group input::placeholder {
+  color: #888;
+}
+
+.btn-primary {
+  background-color: rgba(75,192,192,1);
+  border-color: #8a2be2;
+}
+
+.btn-primary:hover {
+  background-color: #7a22c2;
+  border-color: #7a22c2;
+}
+
+.text-center {
+  color: #e0e0e0;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+  
+}
+
+.d-grid {
+  display: grid;
+  
+}
+
+.gap-2 {
+  gap: 0.5rem;
+  
+}
+.submit-button {
+  background-color: rgba(75,192,192,1); /* Change to desired color */
+  color: #ffffff; /* Ensure text color is readable */
+}
+
+.submit-button:hover {
+  background-color: #264444; /* Change to desired hover color */
+}
+
+.register-link {
+  color: rgba(75,192,192,1); /* Change to desired color */
+}
+
+.register-link:hover {
+  color: #264444; /* Change to desired hover color */
+}
+
+
+.stock-ticker {
+  background-color: black;
+  color: white;
+  font-size: 2.5em;
+  overflow: hidden;
+  position: fixed;
+  top: 70px; /* This should be equal to the height of the navbar */
+  width: 100%;
+  z-index: 999; /* Ensure it's below the navbar */
+  right: 0;
+  border-bottom: 1px solid #333;
+}
+
+.ticker-wrap {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ticker-move {
+  display: flex;
+  white-space: nowrap; /* Ensure items are on a single line */
+  animation: ticker 100s linear infinite; /* Adjust animation duration */
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.stock-symbol {
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.stock-price {
+  margin-right: 1rem;
+}
+
+.stock-change {
+  font-weight: bold;
+}
+
+.stock-change.positive {
+  color: #00ff00; /* Green color for positive change */
+}
+
+.stock-change.negative {
+  color: #ff0000; /* Red color for negative change */
+}
+
+@keyframes ticker {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #2e2735;
   }
   a:hover {
     color: #747bff;
@@ -66,3 +232,4 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+

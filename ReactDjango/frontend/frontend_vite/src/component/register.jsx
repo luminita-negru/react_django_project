@@ -43,10 +43,10 @@ export const Register = () => {
   };
 
   return (
-    <div className="Auth-form-container">
-      <form className="Auth-form" onSubmit={submit}>
-        <div className="Auth-form-content">
-          <h3 className="Auth-form-title">Sign Up</h3>
+    <div className="auth-form-content">
+      <form className="auth-form" onSubmit={submit}>
+        <div className="auth-form-content">
+          <h3 className="auth-form-title">Sign Up</h3>
           <div className="form-group mt-3">
             <label>Username</label>
             <input
@@ -120,7 +120,7 @@ export const Register = () => {
             />
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="submit-button">
               Register
             </button>
           </div>

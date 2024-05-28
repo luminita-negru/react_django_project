@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
 from . import views
-from .views import get_stock_data
+from .views import get_stock_data, get_financial_news
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -29,6 +30,7 @@ urlpatterns = [
     path('token/refresh/',
          jwt_views.TokenRefreshView.as_view(),
          name = 'token_refresh'),
-    path('api/stock/', get_stock_data, name='stock-data'),
-    path('', include('authentification.urls'))
+    path('get_stock_data/', get_stock_data, name='get_stock_data'),
+    path('', include('authentification.urls')),
+    path('api/financial-news/', get_financial_news, name='financial-news')
 ]

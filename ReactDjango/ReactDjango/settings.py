@@ -97,6 +97,7 @@ DATABASES = {
 }
 
 
+
 PASSWORD_RESET_ENABLED : True
 
 # Password validation
@@ -169,6 +170,9 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True
 }
+
+#news api
+ALPHA_VANTAGE_API_KEY = 'ZU8WHL5NC5B4MDE7'
 
 # INTERNAL_IPS = [
 #     "localhost",
