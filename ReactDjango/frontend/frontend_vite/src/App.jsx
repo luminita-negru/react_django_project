@@ -43,11 +43,14 @@ import {Login} from "./component/login";
 import {Home} from "./component/home";
 import {Navigation} from './component/navigation';
 import {Logout} from './component/logout';
-import {Register} from './component/register';
+// import {Register} from './component/register';
 import {StockDataComponent} from './component/StockDataComponent';
 import StockChecker from './component/StockChecker';
 import FinancialNews from './component/FinancialNews';
 import StockTicker from './component/StockTicker';
+import Trade from './component/TradingStock';
+import RegisterForm from './component/RegisterForm';
+import Portfolio from './component/Portfolio';
 
 function App() {
     return (
@@ -58,9 +61,12 @@ function App() {
           <Route path="/frontend" element={<StockDataComponent/>}/>
           <Route path="/frontend/login" element={<Login/>}/>
           <Route path="/frontend/logout" element={<Logout/>}/>
-          <Route path="/frontend/register" element={<Register/>}/>
+          {/* <Route path="/frontend/register" element={<Register/>}/> */}
           <Route path="/frontend/stock" element={<StockChecker/>}/>
           <Route path="/frontend/news" element={<FinancialNews/>}/>
+          <Route path="/frontend/trade" element={<Trade/>}/>
+          <Route path="/frontend/register_form" element={<RegisterForm/>}/>
+          <Route path="/frontend/portfolio" element={<Portfolio/>}/>
         </Routes>
       </BrowserRouter>
     )

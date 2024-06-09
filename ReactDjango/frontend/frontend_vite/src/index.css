@@ -30,7 +30,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: #242424; /* Ensure dark background */
-  color: rgba(77, 31, 114, 0.87); /* Ensure text color */
+  color: rgba(75,192,192,1); /* Ensure text color */
 }
 
 h1 {
@@ -68,7 +68,7 @@ button:focus-visible {
 
 .navbar-brand,
 .nav-link {
-  color: #8a2be2 
+  color: rgba(75,192,192,1); 
 }
 
 .chart-container {
@@ -233,3 +233,150 @@ button:focus-visible {
   }
 }
 
+.h3 {
+  background-color: rgba(75,192,192,1); /* Change to desired color */
+  color: #ffffff; /* Ensure text color is readable */
+}
+
+.portfolio-container {
+  padding: 20px;
+}
+
+.overview, .performance, .user-info, .holdings {
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+.portfolio-container {
+  padding: 20px;
+  color: rgba(75,192,192,1);
+  background-color: #242424;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.overview, .performance, .user-info, .holdings {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #343a40;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.overview h2, .performance h2, .user-info h2, .holdings h2 {
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #ffffff;
+}
+
+table, th, td {
+  border: 1px solid #555;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #1a1a1a;
+}
+
+td {
+  background-color: #2a2a2a;
+}
+
+@media (max-width: 768px) {
+  .portfolio-container {
+    padding: 10px;
+  }
+
+  .overview, .performance, .user-info, .holdings {
+    padding: 10px;
+  }
+
+  table, th, td {
+    font-size: 0.8em;
+  }
+}
+
+.trade-container {
+  padding: 20px;
+  color: rgba(75,192,192,1);
+  background-color: #242424;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.trade-container h1 {
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.trade-form .form-group {
+  margin-bottom: 15px;
+}
+
+.trade-form label {
+  display: block;
+  color: #e0e0e0;
+  margin-bottom: 5px;
+}
+
+.trade-form input,
+.trade-form select {
+  width: 100%;
+  padding: 10px;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.trade-form input::placeholder {
+  color: #888;
+}
+
+.trade-form .submit-button {
+  background-color: rgba(75,192,192,1);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.trade-form .submit-button:hover {
+  background-color: #264444;
+}
+
+.message {
+  color: #ff0000;
+  text-align: center;
+  margin-top: 20px;
+}

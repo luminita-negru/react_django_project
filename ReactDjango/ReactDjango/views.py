@@ -12,7 +12,7 @@ import requests
 
 def get_stock_data(request):
     symbol = request.GET.get('symbol')
-    period = request.GET.get('period', '1d')  # Default to daily if not provided
+    period = request.GET.get('period', '1d')
     if not symbol:
         return JsonResponse({'error': 'No stock symbol provided'}, status=400)
     
@@ -20,20 +20,31 @@ def get_stock_data(request):
         stock = yf.Ticker(symbol)
         if period == '1d':
             data = stock.history(period='1d', interval='1m')
-        
         elif period == '1mo':
             data = stock.history(period='1mo')
         else:
-            # Assume period is a specific month in the format YYYY-MM
             start_date = datetime.strptime(period, '%Y-%m')
             end_date = start_date + timedelta(days=30)
             data = stock.history(start=start_date, end=end_date)
+        
         current_price = stock.history(period='1d')['Close'].iloc[-1]
-        print(data.index.tz)
+        info = stock.info
+        
         return JsonResponse({
             'symbol': symbol,
             'current_price': current_price,
-            'historical_data': data['Close'].to_json()
+            'historical_data': data['Close'].to_json(),
+            'info': {
+                'market_cap': info.get('marketCap'),
+                'eps': info.get('trailingEps'),
+                'dividend_yield': info.get('dividendYield'),
+                'pe_ratio': info.get('trailingPE'),
+                '52_week_high': info.get('fiftyTwoWeekHigh'),
+                '52_week_low': info.get('fiftyTwoWeekLow'),
+                'volume': info.get('volume'),
+                'day_high': info.get('dayHigh'),
+                'day_low': info.get('dayLow')
+            }
         })
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)

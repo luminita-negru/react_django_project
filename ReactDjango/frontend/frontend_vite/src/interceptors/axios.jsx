@@ -7,10 +7,13 @@ axios.interceptors.response.use(resp => resp, async error => {
      const response = await   
            axios.post('http://localhost:8000/token/refresh/', {refresh:localStorage.getItem('refresh_token')}, { headers: {'Content-Type': 'application/json'}}, {withCredentials: true});
     if (response.status === 200) {
+      console.log("Changing token")
        axios.defaults.headers.common['Authorization'] = `Bearer 
        ${response.data['access']}`;
        localStorage.setItem('access_token', response.data.access);
        localStorage.setItem('refresh_token', response.data.refresh);
+       axios.defaults.headers.common['Authorization'] = 
+       `Bearer ${response.data.access}`;
        return axios(error.config);
     }
   }

@@ -52,7 +52,7 @@ export const Login = () => {
           </div>
           <p className="mt-3 text-center">
             Don't have an account?{" "}
-            <a href="/register" className="register-link">Register here</a>
+            <a href="/frontend/register" className="register-link">Register here</a>
           </p>
         </div>
       </form>

@@ -35,7 +35,7 @@ export const Register = () => {
       
       // Handle successful registration (e.g., redirect to login page)
       console.log("Registration successful:", data);
-      navigate("/login");
+      navigate("/frontend/register_form");
     } catch (error) {
       // Handle registration errors (e.g., display error messages)
       console.error("Registration error:", error.response.data);

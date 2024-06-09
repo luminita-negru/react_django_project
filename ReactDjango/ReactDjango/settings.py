@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     "frontend.apps.FrontendConfig",
     "corsheaders",
     "rest_framework",
-    "rest_framework_simplejwt.token_blacklist"
+    "rest_framework_simplejwt.token_blacklist",
+    "trading",
+    "authentification"
 ]
 
 
@@ -57,7 +59,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    #"django.middleware.common.CommonMiddleware"
+    "django.middleware.common.CommonMiddleware"
 ]
 
 ROOT_URLCONF = "ReactDjango.urls"
@@ -148,6 +150,19 @@ STATIC_ROOT = BASE_DIR / "frontend" / "frontend_vite" / "dist"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'x-csrftoken',
+    'Access-Control-Allow-Origin',
+    # Add any other headers you need
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',  # Add your frontend URL here
+]
 
 # CORS_ALLOWED_ALL_ORIGINS = False
 # CORS_ALLOWED_ORIGINS = [
@@ -161,14 +176,16 @@ REST_FRAMEWORK = {
     # ],
     'DEFAULT_AUTHENTICATION_CLASSES' : [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ]
+    ],
+
 }
 
 SIMPLE_JWT = {
-    'ACCES_TOKEN_LIFETIME': timedelta(minutes=10),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 #news api

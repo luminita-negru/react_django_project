@@ -17,14 +17,15 @@ export function Navigation() {
           <Navbar.Brand href="/">TradePlaySimulator</Navbar.Brand>
           <Nav className="me-auto">
             {isAuth ? <Nav.Link href="/">Home</Nav.Link> : null}
-            {isAuth ? <Nav.Link href="/portfolio">Portfolio</Nav.Link> : null}
-            {isAuth ? <Nav.Link href="/trade">Trade</Nav.Link> : null}
+            {isAuth ? <Nav.Link href="/frontend/portfolio">Portfolio</Nav.Link> : null}
+            {isAuth ? <Nav.Link href="/frontend/trade">Trade</Nav.Link> : null}
             {isAuth ? <Nav.Link href="/frontend/stock">Research</Nav.Link> : null}
             {isAuth ? <Nav.Link href="/frontend/news">News</Nav.Link> : null}
           </Nav>
           <Nav>
-            {isAuth ? <Nav.Link href="/logout">Logout</Nav.Link> :
-                      <Nav.Link href="/login">Login</Nav.Link>}
+            {isAuth ? <Nav.Link href="/frontend/logout">Logout</Nav.Link> :
+                      <Nav.Link href="/frontend/login">Login</Nav.Link>}
+            <Nav.Link href="/frontend/login">Login</Nav.Link>
           </Nav>
         </Navbar>
       </div>

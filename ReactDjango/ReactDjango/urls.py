@@ -24,13 +24,14 @@ from .views import get_stock_data, get_financial_news
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("frontend/", include("frontend.urls")),
-    path('token/',
-         jwt_views.TokenObtainPairView.as_view(),
+    path('auth/',
+         include('authentification.urls'),
          name = 'token_obtain_pair'),
     path('token/refresh/',
          jwt_views.TokenRefreshView.as_view(),
          name = 'token_refresh'),
     path('get_stock_data/', get_stock_data, name='get_stock_data'),
     path('', include('authentification.urls')),
-    path('api/financial-news/', get_financial_news, name='financial-news')
+    path('api/financial-news/', get_financial_news, name='financial-news'),
+    path('api/trading/', include('trading.urls'))
 ]
