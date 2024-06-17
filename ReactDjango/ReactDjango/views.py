@@ -18,23 +18,34 @@ import stripe
 def get_stock_data(request):
     symbol = request.GET.get('symbol')
     period = request.GET.get('period', '1d')
+    start_date = request.GET.get('start')
+    end_date = request.GET.get('end')
+
     if not symbol:
         return JsonResponse({'error': 'No stock symbol provided'}, status=400)
-    
+
     try:
         stock = yf.Ticker(symbol)
         if period == '1d':
             data = stock.history(period='1d', interval='1m')
         elif period == '1mo':
             data = stock.history(period='1mo')
-        else:
-            start_date = datetime.strptime(period, '%Y-%m')
-            end_date = start_date + timedelta(days=30)
+        elif period == '1y':
+            data = stock.history(period='1y')
+        elif period == '5y':
+            data = stock.history(period='5y')
+        elif period == 'custom':
+            if not start_date or not end_date:
+                return JsonResponse({'error': 'Custom period requires start_date and end_date'}, status=400)
+            start_date = datetime.strptime(start_date, '%Y-%m-%d')
+            end_date = datetime.strptime(end_date, '%Y-%m-%d')
             data = stock.history(start=start_date, end=end_date)
+        else:
+            return JsonResponse({'error': 'Invalid period specified'}, status=400)
         
         current_price = stock.history(period='1d')['Close'].iloc[-1]
         info = stock.info
-        
+
         return JsonResponse({
             'symbol': symbol,
             'current_price': current_price,

@@ -72,8 +72,8 @@ button:focus-visible {
 }
 
 .chart-container {
-  width: 100%; /* Full width */
-  height: 5000px; /* Desired height */
+  width: 90%; /* Full width */
+  height: 500px; /* Desired height */
   margin: 0 auto; /* Center the chart */
 }
 
@@ -780,6 +780,12 @@ td {
   color: #e0e0e0;
 }
 
+.checker-container{
+  background-color: rgba(36, 36, 36, 0.9);
+  padding: 2rem;
+  color: #e0e0e0;
+}
+
 .donate-container,
 .invest-container {
   background-color: rgba(36, 36, 36, 0.9);
@@ -949,6 +955,27 @@ textarea {
 
 .footer-section ul li a:hover {
   text-decoration: underline;
+}
+
+/*StockChecker.jsx*/
+
+.submit-button {
+  background-color: rgba(75,192,192,1);
+  color: #ffffff;
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #264444;
+}
+
+.chart-container canvas {
+  background-color: #242424; /* Adjust chart background color if needed */
 }
 
 .news-title {

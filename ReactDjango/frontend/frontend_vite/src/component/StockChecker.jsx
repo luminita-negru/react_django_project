@@ -1,4 +1,3 @@
-// src/components/StockChecker.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
@@ -30,12 +29,21 @@ const StockChecker = () => {
   const [currentPrice, setCurrentPrice] = useState(null);
   const [historicalData, setHistoricalData] = useState({});
   const [stockInfo, setStockInfo] = useState({});
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const fetchStockData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/get_stock_data/`, {
-        params: { symbol, period },
-      });
+      const params = { symbol, period };
+      if (period === 'custom') {
+        if (!startDate || !endDate) {
+          alert("Please provide both start and end dates for the custom interval.");
+          return;
+        }
+        params.start = startDate;
+        params.end = endDate;
+      }
+      const response = await axios.get(`http://localhost:8000/get_stock_data/`, { params });
       setCurrentPrice(response.data.current_price);
       setHistoricalData(JSON.parse(response.data.historical_data));
       setStockInfo(response.data.info);
@@ -45,7 +53,14 @@ const StockChecker = () => {
   };
 
   const chartData = {
-    labels: Object.keys(historicalData || {}).map(x => new Date(x * 1).toLocaleString()),
+    labels: Object.keys(historicalData || {}).map(x => {
+      const date = new Date(x * 1);
+      if (period === '1d') {
+        return date.toLocaleString(); // Show full date and time for 'this day'
+      } else {
+        return date.toLocaleDateString(); // Show only date for other periods
+      }
+    }),
     datasets: [
       {
         label: 'Close Price',
@@ -64,10 +79,14 @@ const StockChecker = () => {
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          color: 'white' // Change legend text color to white
+        }
       },
       title: {
         display: true,
         text: `${symbol} Stock Price`,
+        color: 'white' // Change title text color to white
       },
       tooltip: {
         mode: 'index',
@@ -84,23 +103,35 @@ const StockChecker = () => {
         title: {
           display: true,
           text: 'Time',
+          color: 'white' // Change x-axis title color to white
         },
+        ticks: {
+          color: 'white' // Change x-axis ticks color to white
+        }
       },
       y: {
         display: true,
         title: {
           display: true,
           text: 'Price (USD)',
+          color: 'white' // Change y-axis title color to white
         },
+        ticks: {
+          color: 'white' // Change y-axis ticks color to white
+        }
       },
     },
   };
 
   return (
     <div className="container my-5">
-      <div className="card p-3 mb-3">
+      <div className="checker-container">
+        <h1 className="news-title">Research/Lookup Symbol</h1>
+        <p className="text-center">
+          Use this tool to research and lookup stock symbols. Enter a stock ticker to get the latest financial data and historical prices. You can view data for various periods including daily, monthly, yearly, or a custom range.
+        </p>
         <div className="row mb-3">
-          <div className="col-12 col-md-4">
+          <div className="col-12 col-md-3">
             <input
               type="text"
               className="form-control"
@@ -109,14 +140,38 @@ const StockChecker = () => {
               onChange={(e) => setSymbol(e.target.value)}
             />
           </div>
-          <div className="col-12 col-md-4">
+          <div className="col-12 col-md-3">
             <select className="form-select" value={period} onChange={(e) => setPeriod(e.target.value)}>
-              <option value="1d">Daily</option>
-              <option value="1mo">Monthly</option>
-              <option value="specific">Specific Month</option>
+              <option value="1d">This Day</option>
+              <option value="1mo">This Month</option>
+              <option value="1y">This Year</option>
+              <option value="5y">Last 5 Years</option>
+              <option value="custom">Custom Interval</option>
             </select>
           </div>
-          <div className="col-12 col-md-4">
+          {period === 'custom' && (
+            <>
+              <div className="col-12 col-md-3">
+                <input
+                  type="date"
+                  className="form-control"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </div>
+              <div className="col-12 col-md-3">
+                <input
+                  type="date"
+                  className="form-control"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
+            </>
+          )}
+        </div>
+        <div className="row mb-3">
+          <div className="col-12">
             <button className="submit-button" onClick={fetchStockData}>Check Stock</button>
           </div>
         </div>
@@ -128,7 +183,7 @@ const StockChecker = () => {
       </div>
 
       {Object.keys(stockInfo).length > 0 && (
-        <div className="card p-3 mb-3">
+        <div className="checker-container">
           <div className="row">
             <div className="col-6 col-md-4"><strong>Market Cap:</strong> {stockInfo.market_cap}</div>
             <div className="col-6 col-md-4"><strong>EPS:</strong> {stockInfo.eps}</div>
@@ -143,7 +198,7 @@ const StockChecker = () => {
         </div>
       )}
 
-      <div className="card p-3">
+      <div className="checker-container">
         <div className="chart-container">
           <Line options={options} data={chartData} />
         </div>
