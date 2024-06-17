@@ -31,6 +31,31 @@ function HomePage() {
           </div>
         </div>
       </div>
+
+      <div className="portfolio-section">
+        <div className="portfolio-text">
+          <h2>Diversify your portfolio</h2>
+          <p>Invest in a variety of asset classes — including 20 global stock exchanges and 100 cryptocurrencies — while managing all of your holdings in one place.</p>
+          <Link to="/frontend/register" className="btn btn-secondary">Explore Top Markets</Link>
+        </div>
+        <div className="portfolio-cards">
+          <img src="/port.png" alt="Diversified Portfolio" className="cards-image" />
+        </div>
+      </div>
+
+      <div className="copy-investors-section">
+        <div className="copy-investors-background"></div>
+        <div className="copy-investors-content">
+        <div className="investor-photo">
+            <img src="/public/computer.png" alt="Top Investor" className="investor-image" />
+        </div>
+          <div className="copy-text">
+            <h2>Copy top investors</h2>
+            <p>With our innovative CopyTrader™, you can automatically copy the moves of other investors. Find investors you believe in and replicate their actions in real time.</p>
+            <Link to="/frontend/register" className="btn btn-primary">Start Copying</Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -55,6 +55,7 @@ import HomePage from './component/HomePage';
 import FAQPage from './component/FAQPage';
 import ContactPage from './component/ContactPage';
 import DonatePage from './component/DonatePage';
+import Footer from './component/Footer';
 
 function App() {
     return (
@@ -75,6 +76,7 @@ function App() {
           <Route path="/frontend/contact" element={<ContactPage />} />
           <Route path="/frontend/donate" element={<DonatePage />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     )
         

@@ -396,8 +396,8 @@ td {
   color: #ffffff;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
   margin-bottom: 2rem;
-  position: relative;
 }
+
 
 .jumbotron-text-container {
   background: rgba(255, 255, 255, 0.7); /* White translucent background */
@@ -409,24 +409,23 @@ td {
 
 .jumbotron .display-4,
 .jumbotron .lead {
-  color: #000; /* Dark text for better contrast on the white background */
+  color: black;
 }
 
 .features-container {
   margin-top: 2rem;
-  text-align: center; /* Center the container */
 }
 
 .features-container .row {
-  display: flex;
-  justify-content: center; /* Center the row content */
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-around;
 }
 
 .feature-item {
   flex: 1;
-  max-width: 300px;
-  margin: 1rem; /* Add margin to space out the items */
+  max-width: 30%;
+  text-align: center;
 }
 
 .feature-icon {
@@ -439,6 +438,135 @@ td {
   margin-top: 1rem;
   color: rgba(75, 192, 192, 1);
 }
+
+.portfolio-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: #000;
+  padding: 3rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.portfolio-text {
+  max-width: 50%;
+}
+
+.portfolio-text h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.portfolio-text p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-secondary {
+  background-color: #007bff;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #0056b3;
+}
+
+.portfolio-cards {
+  max-width: 50%;
+  text-align: center;
+}
+
+.cards-image {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.portfolio-section:hover .cards-image {
+  transform: scale(1.05);
+}
+
+.copy-investors-section {
+  position: relative;
+  background-color: #1c1c1e;
+  color: #e0e0e0;
+  padding: 3rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copy-investors-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/public/home2.jpeg') no-repeat center center;
+  background-size: cover;
+  opacity: 0.2;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.copy-investors-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.investor-photo {
+  max-width: 50%;
+}
+
+.investor-image {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.copy-text {
+  max-width: 50%;
+  margin-left: 2rem;
+}
+
+.copy-text h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.copy-text p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+  background-color: rgba(75, 192, 192, 1);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: rgba(75, 192, 192, 1);
+}
+
+
 
 
 
@@ -582,7 +710,15 @@ td {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
+.contact-container2 {
+  padding: 2rem;
+  background-color: #535353;
+  color: #e0e0e0;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 .contact-title {
   color: rgba(75,192,192,1);
   text-align: center;
@@ -630,19 +766,34 @@ td {
   color: #e0e0e0;
 }
 
-/* src/component/DonatePage.css */
-.donate-container {
-  padding: 2rem;
-  background-color: #242424;
-  color: #e0e0e0;
-  max-width: 800px;
-  margin: 0 auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.contact-image {
+  width: 20%;
 }
 
-.donate-container h1 {
-  color: rgba(75,192,192,1);
+  /* src/component/DonatePage.css */
+ .donate-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 2rem;
+  color: #e0e0e0;
+}
+
+.donate-container,
+.invest-container {
+  background-color: rgba(36, 36, 36, 0.9);
+  padding: 2rem;
+  color: #e0e0e0;
+  max-width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  min-height: 110vh; /* Ensure both containers are of the same height */
+}
+
+.donate-container h1,
+.invest-container h1 {
+  color: rgba(75, 192, 192, 1);
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -702,19 +853,50 @@ textarea {
 }
 
 .amount-button.selected {
-  background-color: rgba(75,192,192,1);
+  background-color: rgba(75, 192, 192, 1);
   color: #fff;
-  border-color: rgba(75,192,192,1);
+  border-color: rgba(75, 192, 192, 1);
 }
 
 .amount-button:hover {
-  background-color: rgba(75,192,192,1);
+  background-color: rgba(75, 192, 192, 1);
   color: #fff;
-  border-color: rgba(75,192,192,1);
+  border-color: rgba(75, 192, 192, 1);
+}
+.custom-amount {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;  /* Add margin-top to create some space above */
+}
+
+.custom-amount input {
+  margin-left: 5px;  /* Adjust margin to prevent overlap with the dollar sign */
+  width: 350px;       /* Adjust width if necessary to fit within the container */
 }
 
 .submit-button {
-  background-color: rgba(75,192,192,1);
+  background-color: rgba(75, 192, 192, 1);
+  color: #ffffff;
+  width: 100%;
+  padding: 15px;
+  border-radius: 4px;
+  border: none;
+  margin-top: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #264444;
+}
+
+.invest-container p {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.btn-secondary {
+  background-color: rgba(75, 192, 192, 1);
   color: #ffffff;
   width: 100%;
   padding: 10px;
@@ -725,6 +907,50 @@ textarea {
   cursor: pointer;
 }
 
-.submit-button:hover {
+.btn-secondary:hover {
   background-color: #264444;
+}
+
+
+
+/* Footer.jsx */
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  background-color: #1a1a1a;
+  border-top: 1px solid #e7e7e7;
+}
+
+.footer-section {
+  flex: 1;
+  padding: 20px;
+}
+
+.footer-section h4 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+  font-size: 0.9em;
+}
+
+.footer-section ul li a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.footer-section ul li a:hover {
+  text-decoration: underline;
+}
+
+.news-title {
+  color: rgba(75, 192, 192, 1);
 }

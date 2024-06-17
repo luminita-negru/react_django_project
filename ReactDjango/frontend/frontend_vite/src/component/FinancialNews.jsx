@@ -1,5 +1,4 @@
-// FinancialNews.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const FinancialNews = () => {
     const [news, setNews] = useState([]);
@@ -18,7 +17,8 @@ const FinancialNews = () => {
                 if (data.error) {
                     throw new Error(data.error);
                 }
-                setNews(data.feed); // Set the news from the "feed" array
+                setNews(data.feed);
+                setError(null);
             })
             .catch(error => {
                 console.error('Error fetching news:', error);
@@ -26,13 +26,14 @@ const FinancialNews = () => {
             });
     };
 
+    // Fetch news when the component mounts
+    useEffect(() => {
+        fetchNews(ticker);
+    }, []);
+
     const handleSubmit = (event) => {
         event.preventDefault();
         fetchNews(ticker);
-    };
-    const formatDate = (timestamp) => {
-        const date = new Date(parseInt(timestamp));
-        return date.toLocaleString();
     };
 
     return (
@@ -59,15 +60,12 @@ const FinancialNews = () => {
                                 <img src={article.banner_image} className="card-img-top" alt="Article image" />
                             )}
                             <div className="card-body">
-                                <h5 className="card-title">
+                                <h5 className="news-title">
                                     <a href={article.url} target="_blank" rel="noopener noreferrer">
                                         {article.title}
                                     </a>
                                 </h5>
                                 <p className="card-text">{article.summary}</p>
-                            </div>
-                            <div className="card-footer text-muted">
-                                {formatDate(article.time_published)}
                             </div>
                         </div>
                     </div>
