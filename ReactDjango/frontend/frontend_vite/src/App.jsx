@@ -51,6 +51,10 @@ import StockTicker from './component/StockTicker';
 import Trade from './component/TradingStock';
 import RegisterForm from './component/RegisterForm';
 import Portfolio from './component/Portfolio';
+import HomePage from './component/HomePage';
+import FAQPage from './component/FAQPage';
+import ContactPage from './component/ContactPage';
+import DonatePage from './component/DonatePage';
 
 function App() {
     return (
@@ -58,15 +62,18 @@ function App() {
         <Navigation />
         <StockTicker />
         <Routes>
-          <Route path="/frontend" element={<StockDataComponent/>}/>
+          <Route path="/" element={<HomePage/>}/>
           <Route path="/frontend/login" element={<Login/>}/>
           <Route path="/frontend/logout" element={<Logout/>}/>
           {/* <Route path="/frontend/register" element={<Register/>}/> */}
           <Route path="/frontend/stock" element={<StockChecker/>}/>
           <Route path="/frontend/news" element={<FinancialNews/>}/>
           <Route path="/frontend/trade" element={<Trade/>}/>
-          <Route path="/frontend/register_form" element={<RegisterForm/>}/>
+          <Route path="/frontend/register" element={<RegisterForm/>}/>
           <Route path="/frontend/portfolio" element={<Portfolio/>}/>
+          <Route path="/frontend/faq" element={<FAQPage />} />
+          <Route path="/frontend/contact" element={<ContactPage />} />
+          <Route path="/frontend/donate" element={<DonatePage />} />
         </Routes>
       </BrowserRouter>
     )

@@ -21,7 +21,7 @@ export const Login = () => {
          localStorage.setItem('refresh_token', data.refresh);
          axios.defaults.headers.common['Authorization'] = 
                                          `Bearer ${data['access']}`;
-         window.location.href = '/'
+         window.location.href = '/frontend/portfolio'
     }
     return(
       <div className="Auth-form-container">

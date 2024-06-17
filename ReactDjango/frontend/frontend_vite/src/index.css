@@ -380,3 +380,351 @@ td {
   text-align: center;
   margin-top: 20px;
 }
+
+/* src/component/HomePage.css */
+.home-container {
+  padding: 2rem;
+  background-color: #242424;
+  color: #e0e0e0;
+}
+
+.jumbotron {
+  background: url('/public/home4.jpg') no-repeat center center;
+  background-size: cover;
+  padding: 4rem 2rem;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.jumbotron-text-container {
+  background: rgba(255, 255, 255, 0.7); /* White translucent background */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+  text-align: center;
+}
+
+.jumbotron .display-4,
+.jumbotron .lead {
+  color: #000; /* Dark text for better contrast on the white background */
+}
+
+.features-container {
+  margin-top: 2rem;
+  text-align: center; /* Center the container */
+}
+
+.features-container .row {
+  display: flex;
+  justify-content: center; /* Center the row content */
+  margin-bottom: 2rem;
+}
+
+.feature-item {
+  flex: 1;
+  max-width: 300px;
+  margin: 1rem; /* Add margin to space out the items */
+}
+
+.feature-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+
+.features-container h5 {
+  margin-top: 1rem;
+  color: rgba(75, 192, 192, 1);
+}
+
+
+
+/* src/component/RegisterForm.css */
+.auth-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #242424; /* Dark background */
+}
+
+.auth-form {
+  background: #343a40; /* Dark form background */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 500px; /* Adjust width as needed */
+}
+
+.auth-form-title {
+  color: rgba(75,192,192,1);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  color: #e0e0e0; /* Light color for labels */
+}
+
+.form-group input, .form-group select {
+  background: #1a1a1a;
+  color: #e0e0e0;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.form-group input::placeholder, .form-group select::placeholder {
+  color: #888;
+}
+
+.submit-button {
+  background-color: rgba(75,192,192,1); /* Change to desired color */
+  color: #ffffff; /* Ensure text color is readable */
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  margin-top: 10px;
+}
+
+.submit-button:hover {
+  background-color: #264444; /* Change to desired hover color */
+}
+
+.text-center {
+  color: #e0e0e0;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-group {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.form-group:last-child {
+  margin-right: 0;
+}
+
+.btn-secondary {
+  background-color: rgb(75,192,192,1);
+  color: #ffffff;
+  border: none;
+  margin-top: 10px;
+}
+
+.btn-secondary:hover {
+  background-color: rgb(75,192,192,1);
+}
+
+/* src/component/FAQPage.css */
+.faq-container {
+  padding: 2rem;
+  background-color: #242424;
+  color: #e0e0e0;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.faq-title {
+  color: rgba(75,192,192,1);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.faq-item {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #444;
+  padding-bottom: 1rem;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.faq-question h2 {
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.faq-question span {
+  font-size: 1.5rem;
+  color: rgba(75,192,192,1);
+}
+
+.faq-answer {
+  color: #e0e0e0;
+  margin-top: 0.5rem;
+}
+
+/* src/component/ContactPage.css */
+.contact-container {
+  padding: 2rem;
+  background-color: #242424;
+  color: #e0e0e0;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contact-title {
+  color: rgba(75,192,192,1);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.contact-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.contact-form label {
+  color: #e0e0e0;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background: #1a1a1a;
+  color: #e0e0e0;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.contact-form textarea {
+  resize: vertical;
+  height: 150px;
+}
+
+.submit-button {
+  background-color: rgba(75,192,192,1);
+  color: #ffffff;
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  margin-top: 10px;
+}
+
+.submit-button:hover {
+  background-color: #264444;
+}
+
+.text-center {
+  color: #e0e0e0;
+}
+
+/* src/component/DonatePage.css */
+.donate-container {
+  padding: 2rem;
+  background-color: #242424;
+  color: #e0e0e0;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.donate-container h1 {
+  color: rgba(75,192,192,1);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  color: #e0e0e0;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+}
+
+.frequency-options,
+.amount-options {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.frequency-options label,
+.amount-options button {
+  margin-right: 10px;
+}
+
+.amount-options .custom-amount {
+  display: flex;
+  align-items: center;
+}
+
+.amount-options .custom-amount span {
+  margin-right: 5px;
+  color: #e0e0e0;
+}
+
+.amount-button {
+  background-color: #1a1a1a;
+  border: 1px solid #646cff;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #e0e0e0;
+}
+
+.amount-button.selected {
+  background-color: rgba(75,192,192,1);
+  color: #fff;
+  border-color: rgba(75,192,192,1);
+}
+
+.amount-button:hover {
+  background-color: rgba(75,192,192,1);
+  color: #fff;
+  border-color: rgba(75,192,192,1);
+}
+
+.submit-button {
+  background-color: rgba(75,192,192,1);
+  color: #ffffff;
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  margin-top: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #264444;
+}

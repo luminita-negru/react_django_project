@@ -1,5 +1,7 @@
 # stocks/views.py
 from django.http import JsonResponse
+from django.core.mail import send_mail
+from rest_framework.parsers import JSONParser
 from django.conf import settings
 import yfinance as yf
 from datetime import datetime, timedelta
@@ -8,6 +10,9 @@ import io
 import json
 import base64
 import requests
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+import stripe
 
 
 def get_stock_data(request):
@@ -70,4 +75,51 @@ def get_financial_news(request):
     except ValueError as e:
         return JsonResponse({'error': 'Invalid response format'}, status=500)
     
+@csrf_exempt
+def contact_view(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        name = data.get('name')
+        email = data.get('email')
+        subject = data.get('subject')
+        message = data.get('message')
 
+        full_message = f"Message from {name} ({email}):\n\n{message}"
+
+        try:
+            send_mail(subject, full_message,  settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER])
+            return JsonResponse({'message': 'Your message has been sent successfully!'}, status=200)
+        except Exception as e:
+            return JsonResponse({'message': f'Failed to send your message. Please try again. {e}'}, status=500)
+    else:
+        return JsonResponse({'message': 'Invalid request method'}, status=400)
+    
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+@csrf_exempt
+def create_checkout_session(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            session = stripe.checkout.Session.create(
+                payment_method_types=['card'],
+                line_items=[{
+                    'price_data': {
+                        'currency': data['currency'],
+                        'product_data': {
+                            'name': 'Donation',
+                        },
+                        'unit_amount': data['amount'],
+                    },
+                    'quantity': 1,
+                }],
+                mode='payment',
+                success_url='http://localhost:5173/success',
+                cancel_url='http://localhost:5173/cancel',
+            )
+            return JsonResponse({'id': session.id})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=403)
+    else:
+        return JsonResponse({'message': 'Invalid request method'}, status=400)

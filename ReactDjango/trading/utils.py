@@ -10,9 +10,9 @@ def get_stock_data(symbol):
         'symbol': symbol,
         'name': stock.info.get('shortName', 'N/A'),
         'last_price': last_close_price,
-        'bid_price': stock.info.get('bid', last_close_price * 0.99),
-        'ask_price': stock.info.get('ask', last_close_price * 1.01),
-        'available_shares': 1000  
+        'bid_price': stock.info.get('bid', "No bid price available"),
+        'ask_price': stock.info.get('ask', "No bid price available"),
+        'available_shares': stock.info.get('sharesOutstanding', "No data available") 
     }
 
 def calculate_market_price(stock_data, transaction_type):

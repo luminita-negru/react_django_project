@@ -30,12 +30,12 @@ class TradeView(APIView):
                 symbol=symbol,
                 name=stock_data['name'],
                 asset_type='Stock',  # Assuming it's a stock, you can modify this based on your needs
-                last_price=Decimal(stock_data['last_price']),
-                
-                start_price=Decimal(stock_data['last_price']),
-                buy_price=Decimal(stock_data['bid_price']),
-                sell_price=Decimal(stock_data['ask_price']),
-                history=[{'date': datetime.now().strftime('%Y-%m-%d'), 'price': Decimal(stock_data['last_price'])}]
+                last_price=float(stock_data['last_price']),
+                start_price=float(stock_data['last_price']),
+                available_shares=float(stock_data['available_shares']),
+                buy_price=float(stock_data['bid_price']),
+                sell_price=float(stock_data['ask_price']),
+                history=[{'date': datetime.now().strftime('%Y-%m-%d'), 'price': float(stock_data['last_price'])}]
             )
 
         # Calculate the price based on order type

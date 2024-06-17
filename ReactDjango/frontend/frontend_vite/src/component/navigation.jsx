@@ -21,6 +21,9 @@ export function Navigation() {
             {isAuth ? <Nav.Link href="/frontend/trade">Trade</Nav.Link> : null}
             {isAuth ? <Nav.Link href="/frontend/stock">Research</Nav.Link> : null}
             {isAuth ? <Nav.Link href="/frontend/news">News</Nav.Link> : null}
+            {isAuth ? <Nav.Link href="/frontend/faq">FAQs</Nav.Link> : null}
+            {isAuth ? <Nav.Link href="/frontend/contact">Contact</Nav.Link> : null}
+            {isAuth ? <Nav.Link href="/frontend/donate">Donate</Nav.Link> : null}
           </Nav>
           <Nav>
             {isAuth ? <Nav.Link href="/frontend/logout">Logout</Nav.Link> :

@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
 from . import views
-from .views import get_stock_data, get_financial_news
+from .views import get_stock_data, get_financial_news, contact_view, create_checkout_session
 
 
 urlpatterns = [
@@ -33,5 +33,7 @@ urlpatterns = [
     path('get_stock_data/', get_stock_data, name='get_stock_data'),
     path('', include('authentification.urls')),
     path('api/financial-news/', get_financial_news, name='financial-news'),
-    path('api/trading/', include('trading.urls'))
+    path('api/trading/', include('trading.urls')),
+    path('contact/', contact_view),
+    path('api/checkout/', create_checkout_session, name='create_checkout_session'),
 ]
