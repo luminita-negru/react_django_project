@@ -1,20 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosConfig from '../interceptors/axiosConfig';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 const Portfolio = () => {
   const [data, setData] = useState(null);
+  const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
+  const [accountValue, setAccountValue] = useState(0.0);
+  const [assets, setAssets] = useState([]);
+  const [chartData, setChartData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/trading/portfolio/', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-          }
-        });
+        const response = await axiosConfig.get('/api/trading/portfolio/');
         setData(response.data);
+        setBalance(response.data.portfolio.balance);
+        prepareChartData(response.data.portfolio.history);
       } catch (error) {
         setError('Failed to fetch portfolio data.');
       } finally {
@@ -24,6 +45,63 @@ const Portfolio = () => {
     fetchData();
   }, []);
 
+  const prepareChartData = (history) => {
+    if (!history) return;
+
+    const labels = history.map(entry => new Date(entry.timestamp).toLocaleString());
+    const values = history.map(entry => parseFloat(entry.value));
+    setChartData({
+      labels,
+      datasets: [
+        {
+          label: 'Portfolio Value',
+          data: values,
+          backgroundColor: 'rgba(75,192,192,0.2)',
+          borderColor: 'rgba(75,192,192,1)',
+          borderWidth: 1,
+          fill: true,
+          tension: 0.4,
+        },
+      ],
+    });
+  };
+
+  useEffect(() => {
+    let ws;
+
+    const fetchUuidAndConnectWebSocket = async () => {
+      try {
+        const response = await axiosConfig.get('/auth_for_ws_connection/');
+        const fetchedUuid = response.data.uuid;
+
+
+        ws = new WebSocket(`ws://localhost:8000/ws/stock_data/?uuid=${fetchedUuid}`);
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          if(data){
+            setAssets(data['assets']);
+            setBalance(data['balance']);
+          }
+          console.log(data);
+        };
+
+        ws.onclose = () => {
+          console.log('WebSocket connection closed');
+        };
+      } catch (error) {
+        console.error('Error fetching UUID or establishing WebSocket connection:', error);
+      }
+    };
+
+    fetchUuidAndConnectWebSocket();
+
+    return () => {
+      console.log(ws)
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, []);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
@@ -36,13 +114,14 @@ const Portfolio = () => {
   return (
     <div className="portfolio-container">
       <div className="overview">
-        <h2>Account Value: ${portfolio.balance.toFixed(2)}</h2>
-        <p>Buying Power: ${portfolio.balance.toFixed(2)}</p>
-        <p>Cash: ${portfolio.balance.toFixed(2)}</p>
+        <h2>Account Value: ${assets.map(obj=>obj['quantity']*obj['last_price']).reduce((accumulator, currentValue) => {
+          return accumulator + currentValue
+        },0).toFixed(2)}</h2>
+        <p>Balance: ${balance}</p>
       </div>
       <div className="performance">
         <h2>Performance</h2>
-        {/* Performance chart component */}
+        {chartData && <Line data={chartData} />}
       </div>
       <div className="user-info">
         <h2>User Info</h2>
@@ -55,26 +134,20 @@ const Portfolio = () => {
           <thead>
             <tr>
               <th>Symbol</th>
-              <th>Description</th>
               <th>Current Price</th>
-              <th>Purchase Price</th>
               <th>Quantity</th>
               <th>Total Value</th>
-              <th>Total Gain/Loss</th>
             </tr>
           </thead>
           <tbody>
-            {portfolio.assets.map(asset => (
+            {assets.map(asset => (
               <tr key={asset.symbol}>
                 <td>{asset.symbol}</td>
-                <td>{asset.name}</td>
-                <td>${asset.last_price}</td>
-                <td>${asset.buy_price}</td>
-                <td>{asset.available_shares}</td>
-                <td>${(asset.available_shares * asset.last_price).toFixed(2)}</td>
-                <td>${((asset.last_price - asset.buy_price) * asset.available_shares).toFixed(2)}</td>
+                <td>${(asset.last_price || 0).toFixed(2)}</td>
+                <td>{asset.quantity}</td>
+                <td>${(asset.quantity * asset.last_price || 0).toFixed(2)}</td>
               </tr>
-            ))}
+            ))} 
           </tbody>
         </table>
       </div>

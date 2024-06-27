@@ -27,7 +27,7 @@ export const Login = () => {
       <div className="Auth-form-container">
       <form className="auth-form" onSubmit={submit}>
         <div className="auth-form-content">
-          <h3 className="auth-form-title">Sign In</h3>
+          <h3 className="auth-form-title">Log In</h3>
           <div className="form-group mt-3">
             <label>Username</label>
             <input className="form-control mt-1"

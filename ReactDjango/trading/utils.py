@@ -4,12 +4,9 @@ import yfinance as yf
 
 def get_stock_data(symbol):
     stock = yf.Ticker(symbol)
-    history = stock.history(period='1d')
-    last_close_price = history['Close'][0]
     return {
         'symbol': symbol,
         'name': stock.info.get('shortName', 'N/A'),
-        'last_price': last_close_price,
         'bid_price': stock.info.get('bid', "No bid price available"),
         'ask_price': stock.info.get('ask', "No bid price available"),
         'available_shares': stock.info.get('sharesOutstanding', "No data available") 
@@ -21,13 +18,6 @@ def calculate_market_price(stock_data, transaction_type):
     elif transaction_type == 'sell':
         return stock_data['bid_price']
     return stock_data['last_price']
-
-def calculate_limit_price(order_price, transaction_type, stock_data):
-    if transaction_type == 'buy' and order_price >= stock_data['ask_price']:
-        return order_price
-    elif transaction_type == 'sell' and order_price <= stock_data['bid_price']:
-        return order_price
-    return None  # Invalid limit price
 
 def is_order_expired(order_date, duration):
     """Check if the order has expired based on its duration."""

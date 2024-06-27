@@ -17,11 +17,13 @@ const StockTicker = () => {
                     const { symbol, current_price } = response.data;
                     const historicalData = JSON.parse(response.data.historical_data);
                     const prices = Object.values(historicalData);
-                    const change = prices.length > 1 ? prices[prices.length - 1] - prices[0] : 0;
-                    const percentageChange = ((change / prices[0]) * 100).toFixed(2);
+                    const newPrice = prices[prices.length - 1];
+                    const oldPrice = prices[0];
+                    const change = newPrice - oldPrice;
+                    const percentageChange = ((change / oldPrice) * 100).toFixed(2);
                     return {
                         symbol,
-                        currentPrice: current_price,
+                        currentPrice: current_price.toFixed(2),
                         change: change.toFixed(2),
                         percentageChange,
                     };

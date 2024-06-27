@@ -59,7 +59,9 @@ def get_stock_data(request):
                 '52_week_low': info.get('fiftyTwoWeekLow'),
                 'volume': info.get('volume'),
                 'day_high': info.get('dayHigh'),
-                'day_low': info.get('dayLow')
+                'day_low': info.get('dayLow'),
+                'bid': info.get('bid'),
+                'ask': info.get('ask')
             }
         })
     except Exception as e:

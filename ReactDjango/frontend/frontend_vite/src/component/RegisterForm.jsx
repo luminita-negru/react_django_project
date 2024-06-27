@@ -164,7 +164,7 @@ const RegisterForm = () => {
         </div>
         <button type="submit" className="btn btn-primary submit-button">Submit</button>
         <div className="text-center mt-3">
-          <p>Already have an account? <Link to="/frontend/login" className="btn btn-secondary">Go to Login</Link></p>
+          <p>Already have an account? <Link to="/frontend/login" className="auth-form-title">Go to Login</Link></p>
         </div>
       </form>
       {message && <p className="text-center mt-3">{message}</p>}

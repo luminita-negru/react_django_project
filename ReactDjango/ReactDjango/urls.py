@@ -19,9 +19,11 @@ from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
 from . import views
 from .views import get_stock_data, get_financial_news, contact_view, create_checkout_session
+from django_channels_jwt.views import AsgiValidateTokenView
 
 
 urlpatterns = [
+    path("auth_for_ws_connection/", AsgiValidateTokenView.as_view()),
     path("admin/", admin.site.urls),
     path("frontend/", include("frontend.urls")),
     path('auth/',

@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import UserProfile, Asset, Portfolio, Transaction
-from .utils import get_stock_data, calculate_market_price, calculate_limit_price, is_order_expired, get_expiry_date
+from .utils import get_stock_data, calculate_market_price, is_order_expired, get_expiry_date
 from bson.decimal128 import Decimal128
 
 class TradeView(APIView):
@@ -15,36 +15,21 @@ class TradeView(APIView):
         data = request.data
         
         transaction_type = data.get('transaction_type')
+        price_by_user = data.get('price', 0)
+        price_by_user = float(price_by_user) if price_by_user != '' else 0
         symbol = data.get('symbol')
         quantity = int(data.get('quantity', 0))
+        if quantity == 0:
+            return Response({'status': 'error', 'message': 'No quantity selected'}, status=status.HTTP_400_BAD_REQUEST)
+
         order_type = data.get('order_type')
         duration = data.get('duration')
 
         # Fetch stock data
         stock_data = get_stock_data(symbol)
-
-        # Check if the asset exists, if not create it from yFinance data
-        asset = Asset.objects.filter(symbol=symbol).first()
-        if not asset:
-            asset = Asset.objects.create(
-                symbol=symbol,
-                name=stock_data['name'],
-                asset_type='Stock',  # Assuming it's a stock, you can modify this based on your needs
-                last_price=float(stock_data['last_price']),
-                start_price=float(stock_data['last_price']),
-                available_shares=float(stock_data['available_shares']),
-                buy_price=float(stock_data['bid_price']),
-                sell_price=float(stock_data['ask_price']),
-                history=[{'date': datetime.now().strftime('%Y-%m-%d'), 'price': float(stock_data['last_price'])}]
-            )
-
+       
         # Calculate the price based on order type
-        if order_type == 'market':
-            price = calculate_market_price(stock_data, transaction_type)
-        elif order_type == 'limit':
-            price = calculate_limit_price(Decimal(data.get('price', 0)), transaction_type, stock_data)
-            if price is None:
-                return Response({'status': 'error', 'message': 'Invalid limit price'}, status=status.HTTP_400_BAD_REQUEST)
+        price = calculate_market_price(stock_data, transaction_type)
 
         # Fetch user profile
         user_profile = UserProfile.objects.filter(user=request.user).first()
@@ -56,66 +41,77 @@ class TradeView(APIView):
         if not portfolio:
             return Response({'status': 'error', 'message': 'Portfolio not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        total_cost = quantity * price
 
-        if transaction_type == 'buy':
-            if portfolio.balance.to_decimal() < total_cost:
-                return Response({'status': 'error', 'message': 'Insufficient balance'}, status=status.HTTP_400_BAD_REQUEST)
-            portfolio.balance = portfolio.balance.to_decimal() - Decimal(str(total_cost))
-            asset_found = False
-            for asset_item in portfolio.assets:
-                if asset_item['symbol'] == symbol:
-                    asset_item['quantity'] += quantity
-                    asset_found = True
-                    break
-            if not asset_found:
-                portfolio.assets.append({'symbol': symbol, 'quantity': quantity, 'purchase_price': price})
-            portfolio.save()
-        elif transaction_type == 'sell':
-            asset_found = False
-            for asset_item in portfolio.assets:
-                if asset_item['symbol'] == symbol and asset_item['quantity'] >= quantity:
-                    portfolio.balance = portfolio.balance.to_decimal() + Decimal(str(total_cost))
-                    asset_item['quantity'] -= quantity
-                    if asset_item['quantity'] == 0:
-                        portfolio.assets.remove(asset_item)
-                    asset_found = True
-                    break
-            if not asset_found:
-                return Response({'status': 'error', 'message': 'Insufficient assets'}, status=status.HTTP_400_BAD_REQUEST)
-            portfolio.save()
+        if order_type == 'market':
+            total_price = quantity * price
 
-        # Record the transaction with expiry date
-        transaction = Transaction.objects.create(
-            transaction_type=transaction_type,
-            portfolio=portfolio,
-            asset=asset,
-            quantity=quantity,
-            price=price,
-            confirmed=True,
-            transaction_date=datetime.now(),
-            expiration_date=get_expiry_date(duration)
-        )
+            if transaction_type == 'buy':
+                if portfolio.balance.to_decimal() < total_price:
+                    return Response({'status': 'error', 'message': 'Insufficient balance'}, status=status.HTTP_400_BAD_REQUEST)
+                portfolio.balance = portfolio.balance.to_decimal() - Decimal(str(total_price))
+                asset_item = list(filter(lambda x: x['symbol'] == symbol, portfolio.assets))
+                if len(asset_item) > 0:
+                    asset_item[0]['quantity'] += quantity
+                else:
+                    portfolio.assets.append({'symbol': symbol, 'quantity': quantity, 'purchase_price': price})
+                portfolio.save()
+            elif transaction_type == 'sell':
+                asset_item = list(filter(lambda x: x['symbol'] == symbol, portfolio.assets))
+                if  len(asset_item) >0 and asset_item[0]['quantity'] >= quantity:
+                    asset_item[0]['quantity'] -= quantity
+                else:
+                    return Response({'status': 'error', 'message': 'Insufficient assets'}, status=status.HTTP_400_BAD_REQUEST)
+                portfolio.balance = portfolio.balance.to_decimal() + Decimal(str(total_price))
+                portfolio.save()
+            
+            transaction = Transaction.objects.create(
+                transaction_type=transaction_type,
+                portfolio=portfolio,
+                quantity=quantity,
+                symbol=symbol,
+                price=price,
+                state='completed',
+                transaction_date=datetime.now(),
+            )
+        elif order_type == 'limit':
+            state = 'pending'
+            if transaction_type == 'buy':
+                total_price = quantity * min(price_by_user, price)
 
+                if price <= price_by_user and portfolio.balance.to_decimal() >= total_price:
+                    portfolio.balance = portfolio.balance.to_decimal() - Decimal(str(total_price))
+                    asset_item = list(filter(lambda x: x['symbol'] == symbol, portfolio.assets))
+                    if len(asset_item)>0:
+                        asset_item[0]['quantity'] += quantity
+                    else:
+                        portfolio.assets.append({'symbol': symbol, 'quantity': quantity})
+                    portfolio.save()
+                    state='completed'
+                    price_by_user = price
+
+            elif transaction_type == 'sell':
+                total_price = quantity * max(price_by_user, price)
+                asset_item = list(filter(lambda x: x['symbol'] == symbol, portfolio.assets))
+                if  len(asset_item) > 0 and asset_item[0]['quantity'] >= quantity and price >= price_by_user:
+                    asset_item[0]['quantity'] -= quantity
+                    state = 'completed'
+                    portfolio.balance = portfolio.balance.to_decimal() + Decimal(str(total_price))
+                    portfolio.save()
+                    price_by_user = price
+            
+            transaction = Transaction.objects.create(
+                transaction_type=transaction_type,
+                portfolio=portfolio,
+                quantity=quantity,
+                price=price_by_user,
+                symbol=symbol,
+                state=state,
+                transaction_date=datetime.now(),
+                expiration_date=get_expiry_date(duration)
+            )
         return Response({'status': 'success', 'message': 'Transaction successful'}, status=status.HTTP_200_OK)
 
-    def get(self, request, *args, **kwargs):
-        # Check for expired transactions
-        user_profile = UserProfile.objects.filter(user=request.user).first()
-        if not user_profile:
-            return Response({'status': 'error', 'message': 'User profile not found'}, status=status.HTTP_404_NOT_FOUND)
-
-        portfolio = Portfolio.objects.filter(user_profile=user_profile).first()
-        if not portfolio:
-            return Response({'status': 'error', 'message': 'Portfolio not found'}, status=status.HTTP_404_NOT_FOUND)
-
-        expired_transactions = []
-        for transaction in Transaction.objects.filter(portfolio=portfolio):
-            if is_order_expired(transaction.transaction_date, transaction.duration):
-                expired_transactions.append(transaction)
-
-        return Response({'expired_transactions': expired_transactions}, status=status.HTTP_200_OK)
-
+   
 class PortfolioView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -128,8 +124,6 @@ class PortfolioView(APIView):
         if not portfolio:
             return Response({'status': 'error', 'message': 'Portfolio not found'}, status=404)
 
-        assets = Asset.objects.filter(symbol__in=[item['symbol'] for item in portfolio.assets])
-
         data = {
             'user_profile': {
                 'initial_balance': user_profile.initial_balance.to_decimal(),
@@ -140,18 +134,8 @@ class PortfolioView(APIView):
             'portfolio': {
                 'portfolio_name': portfolio.portfolio_name,
                 'balance': portfolio.balance.to_decimal(),
-                'assets': [
-                    {
-                        'symbol': asset.symbol,
-                        'name': asset.name,
-                        'last_price': asset.last_price.to_decimal(),
-                        'available_shares': asset.available_shares,
-                        'buy_price': asset.buy_price.to_decimal(),
-                        'sell_price': asset.sell_price.to_decimal(),
-                        'quantity': next((item['quantity'] for item in portfolio.assets if item['symbol'] == asset.symbol), 0),
-                        'purchase_price': next((item['purchase_price'] for item in portfolio.assets if item['symbol'] == asset.symbol), 0)
-                    } for asset in assets
-                ]
+                'assets': portfolio.assets,
+                'history': portfolio.history
             }
         }
         return Response(data, status=200)

@@ -31,6 +31,7 @@ body {
   min-height: 100vh;
   background-color: #242424; /* Ensure dark background */
   color: rgba(75,192,192,1); /* Ensure text color */
+  padding-top: 60px;
 }
 
 h1 {
@@ -63,12 +64,12 @@ button:focus-visible {
   top: 0;
   z-index: 1000;
   background-color: #343a40; /* Dark background for the navbar */
-  font-size: 1.8em;
+  font-size: 3em;
 }
 
 .navbar-brand,
 .nav-link {
-  color: rgba(75,192,192,1); 
+  color: rgba(75,192,192,1);
 }
 
 .chart-container {
@@ -168,9 +169,9 @@ button:focus-visible {
   font-size: 2.5em;
   overflow: hidden;
   position: fixed;
-  top: 70px; /* This should be equal to the height of the navbar */
+  top: 100px; /* This should be equal to the height of the navbar */
   width: 100%;
-  z-index: 999; /* Ensure it's below the navbar */
+  z-index: 1060; /* Ensure it's below the navbar */
   right: 0;
   border-bottom: 1px solid #333;
 }
@@ -200,6 +201,7 @@ button:focus-visible {
 
 .stock-price {
   margin-right: 1rem;
+  color: rgba(75, 192, 192, 1)
 }
 
 .stock-change {
@@ -980,4 +982,130 @@ textarea {
 
 .news-title {
   color: rgba(75, 192, 192, 1);
+}
+
+
+/* TradeStock.css */
+.trade-page {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.trade-container {
+  padding: 20px;
+  color: rgba(75,192,192,1);
+  background-color: #242424;
+  width: 45%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.trade-container h1 {
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.trade-form .form-group {
+  margin-bottom: 15px;
+}
+
+.trade-form label {
+  display: block;
+  color: #e0e0e0;
+  margin-bottom: 5px;
+}
+
+.trade-form input,
+.trade-form select {
+  width: 100%;
+  padding: 10px;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.trade-form input::placeholder {
+  color: #888;
+}
+
+.trade-form .submit-button {
+  background-color: rgba(75,192,192,1);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.trade-form .submit-button:hover {
+  background-color: #264444;
+}
+
+.message {
+  color: #ff0000;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.chart-container-trade {
+  flex-grow: 1;
+  padding: 20px;
+  color: rgba(75,192,192,1);
+  background-color: #242424;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chart-container h3 {
+  color: #ffffff;
+  text-align: center;
+}
+
+.chart-container p {
+  color: #e0e0e0;
+}
+
+
+
+
+
+.chart-container h3 {
+  color: rgba(75, 192, 192, 1);
+  text-align: center;
+}
+
+.chart-container p {
+  color: white;
+  text-align: center;
+}
+
+.logo-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0px; /* Adjust as needed */
+  z-index: 1050; /* Ensure the logo is above other elements */
+}
+
+.feature-logo { 
+  max-width: 120px; /* Adjust as needed */
+}
+
+.navbar-with-logo {
+  z-index: 1000; /* Ensure the navbar is below the logo */
+  padding-left: 80px; /* Adjust to match the width of the logo container */
+}
+
+.navbar-nav {
+  flex-direction: row;
+}
+
+.navbar-nav .nav-link {
+  margin-left: 50px; /* Adjust as needed */
 }

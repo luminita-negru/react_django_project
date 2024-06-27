@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -46,7 +47,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
     "trading",
-    "authentification"
+    "authentification",
 ]
 
 
@@ -82,7 +83,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "ReactDjango.wsgi.application"
-
+ASGI_APPLICATION = "ReactDjango.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -90,11 +91,10 @@ WSGI_APPLICATION = "ReactDjango.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'trading_simulator',  
+        'NAME': 'trading_simulator',
+        'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': 'mongodb+srv://lumynegru02:Pb7BUdtNP67TCD9o@cluster0.ppwy7rg.mongodb.net/',
-                'username' : 'lumynegru02',
-                'password' : 'Pb7BUdtNP67TCD9o',
+            'host': 'mongodb://localhost:27020,localhost:27018,localhost:27019/?replicaSet=m101'
         }
     }
 }
@@ -183,7 +183,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'AUTH_HEADER_TYPES': ('Bearer',),
@@ -215,3 +215,18 @@ print("EMAIL_HOST_PASSWORD:", EMAIL_HOST_PASSWORD)
 
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BEAT_SCHEDULE = {
+    'limit_order': {
+        'task': 'ReactDjango.tasks.limit_orders_check',
+        'schedule': 60.0,  # Time in seconds
+    },
+    'portofolio_history': {
+        'task': 'ReactDjango.tasks.save_user_performance',
+        'schedule': 120.0,  # Time in seconds
+    },
+}
+
