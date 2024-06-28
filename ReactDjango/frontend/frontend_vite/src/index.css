@@ -11,7 +11,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: 56px; /* Adjust according to the navbar height */
+  padding-top: 56px; 
 }
 
 a {
@@ -29,8 +29,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #242424; /* Ensure dark background */
-  color: rgba(75,192,192,1); /* Ensure text color */
+  background-color: #242424; 
+  color: rgba(75,192,192,1); 
   padding-top: 60px;
 }
 
@@ -63,8 +63,8 @@ button:focus-visible {
   width: 100%;
   top: 0;
   z-index: 1000;
-  background-color: #343a40; /* Dark background for the navbar */
-  font-size: 3em;
+  background-color: #343a40; 
+  font-size: 1.3em;
 }
 
 .navbar-brand,
@@ -73,9 +73,9 @@ button:focus-visible {
 }
 
 .chart-container {
-  width: 90%; /* Full width */
-  height: 500px; /* Desired height */
-  margin: 0 auto; /* Center the chart */
+  width: 90%; 
+  height: 500px; 
+  margin: 0 auto; 
 }
 
 .auth-form-container {
@@ -83,15 +83,15 @@ button:focus-visible {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #242424; /* Dark background */
+  background-color: #242424; 
 }
 
 .auth-form {
-  background: #343a40; /* Dark form background */
+  background: #343a40; 
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 300px; /* Adjust width as needed */
+  width: 300px; 
 }
 
 .auth-form-title {
@@ -101,7 +101,7 @@ button:focus-visible {
 }
 
 .form-group label {
-  color: #e0e0e0; /* Light color for labels */
+  color: #e0e0e0; 
 }
 
 .form-group input {
@@ -119,7 +119,6 @@ button:focus-visible {
 
 .btn-primary {
   background-color: rgba(75,192,192,1);
-  border-color: #8a2be2;
 }
 
 .btn-primary:hover {
@@ -146,32 +145,33 @@ button:focus-visible {
   
 }
 .submit-button {
-  background-color: rgba(75,192,192,1); /* Change to desired color */
-  color: #ffffff; /* Ensure text color is readable */
+  background-color: rgba(75,192,192,1); 
+  color: #ffffff; 
 }
 
 .submit-button:hover {
-  background-color: #264444; /* Change to desired hover color */
+  background-color: #264444; 
 }
 
 .register-link {
-  color: rgba(75,192,192,1); /* Change to desired color */
+  color: rgba(75,192,192,1); 
 }
 
 .register-link:hover {
-  color: #264444; /* Change to desired hover color */
+  color: #264444; 
 }
 
 
 .stock-ticker {
   background-color: black;
   color: white;
-  font-size: 2.5em;
+  font-size: 2em;
   overflow: hidden;
   position: fixed;
-  top: 100px; /* This should be equal to the height of the navbar */
+  top: 62px; 
+  height: 50px;
   width: 100%;
-  z-index: 1060; /* Ensure it's below the navbar */
+  z-index: 1060; 
   right: 0;
   border-bottom: 1px solid #333;
 }
@@ -184,8 +184,8 @@ button:focus-visible {
 
 .ticker-move {
   display: flex;
-  white-space: nowrap; /* Ensure items are on a single line */
-  animation: ticker 100s linear infinite; /* Adjust animation duration */
+  white-space: nowrap; 
+  animation: ticker 100s linear infinite; 
 }
 
 .ticker-item {
@@ -209,11 +209,11 @@ button:focus-visible {
 }
 
 .stock-change.positive {
-  color: #00ff00; /* Green color for positive change */
+  color: #00ff00; 
 }
 
 .stock-change.negative {
-  color: #ff0000; /* Red color for negative change */
+  color: #ff0000; 
 }
 
 @keyframes ticker {
@@ -236,8 +236,8 @@ button:focus-visible {
 }
 
 .h3 {
-  background-color: rgba(75,192,192,1); /* Change to desired color */
-  color: #ffffff; /* Ensure text color is readable */
+  background-color: rgba(75,192,192,1); 
+  color: #ffffff; 
 }
 
 .portfolio-container {
@@ -383,7 +383,7 @@ td {
   margin-top: 20px;
 }
 
-/* src/component/HomePage.css */
+/* HomePage.css */
 .home-container {
   padding: 2rem;
   background-color: #242424;
@@ -402,7 +402,7 @@ td {
 
 
 .jumbotron-text-container {
-  background: rgba(255, 255, 255, 0.7); /* White translucent background */
+  background: rgba(255, 255, 255, 0.7); 
   padding: 1rem;
   border-radius: 0.5rem;
   display: inline-block;
@@ -572,21 +572,21 @@ td {
 
 
 
-/* src/component/RegisterForm.css */
+/* RegisterForm.css */
 .auth-form-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #242424; /* Dark background */
+  height: 150vh;
+  background-color: #242424; 
 }
 
 .auth-form {
-  background: #343a40; /* Dark form background */
+  background: #343a40; 
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 500px; /* Adjust width as needed */
+  width: 500px; 
 }
 
 .auth-form-title {
@@ -596,7 +596,7 @@ td {
 }
 
 .form-group label {
-  color: #e0e0e0; /* Light color for labels */
+  color: #e0e0e0; 
 }
 
 .form-group input, .form-group select {
@@ -614,8 +614,8 @@ td {
 }
 
 .submit-button {
-  background-color: rgba(75,192,192,1); /* Change to desired color */
-  color: #ffffff; /* Ensure text color is readable */
+  background-color: rgba(75,192,192,1); 
+  color: #ffffff; 
   width: 100%;
   padding: 10px;
   border-radius: 4px;
@@ -624,7 +624,7 @@ td {
 }
 
 .submit-button:hover {
-  background-color: #264444; /* Change to desired hover color */
+  background-color: #264444; 
 }
 
 .text-center {
@@ -656,7 +656,7 @@ td {
   background-color: rgb(75,192,192,1);
 }
 
-/* src/component/FAQPage.css */
+/* FAQPage.css */
 .faq-container {
   padding: 2rem;
   background-color: #242424;
@@ -702,7 +702,7 @@ td {
   margin-top: 0.5rem;
 }
 
-/* src/component/ContactPage.css */
+/* ContactPage.css */
 .contact-container {
   padding: 2rem;
   background-color: #242424;
@@ -772,7 +772,7 @@ td {
   width: 20%;
 }
 
-  /* src/component/DonatePage.css */
+  /* DonatePage.css */
  .donate-page {
   display: flex;
   justify-content: center;
@@ -796,7 +796,7 @@ td {
   max-width: 400px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  min-height: 110vh; /* Ensure both containers are of the same height */
+  min-height: 110vh; 
 }
 
 .donate-container h1,
@@ -874,12 +874,12 @@ textarea {
 .custom-amount {
   display: flex;
   align-items: center;
-  margin-top: 10px;  /* Add margin-top to create some space above */
+  margin-top: 10px;  
 }
 
 .custom-amount input {
-  margin-left: 5px;  /* Adjust margin to prevent overlap with the dollar sign */
-  width: 350px;       /* Adjust width if necessary to fit within the container */
+  margin-left: 5px;  
+  width: 350px;       
 }
 
 .submit-button {
@@ -906,7 +906,7 @@ textarea {
 .btn-secondary {
   background-color: rgba(75, 192, 192, 1);
   color: #ffffff;
-  width: 100%;
+  width: 50%;
   padding: 10px;
   border-radius: 4px;
   border: none;
@@ -977,7 +977,7 @@ textarea {
 }
 
 .chart-container canvas {
-  background-color: #242424; /* Adjust chart background color if needed */
+  background-color: #242424; 
 }
 
 .news-title {
@@ -1047,7 +1047,6 @@ textarea {
 }
 
 .message {
-  color: #ff0000;
   text-align: center;
   margin-top: 20px;
 }
@@ -1071,6 +1070,46 @@ textarea {
   color: #e0e0e0;
 }
 
+.pending-transactions {
+  width: 100%;
+  padding: 20px;
+  color: rgba(75,192,192,1);
+  background-color: #242424;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pending-transactions h3 {
+  color: rgba(75,192,192,1);
+  text-align: center;
+}
+
+.pending-transactions ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.pending-transactions li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.pending-transactions button {
+  background-color: #ff4c4c;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pending-transactions button:hover {
+  background-color: #ff0000;
+}
 
 
 
@@ -1089,17 +1128,17 @@ textarea {
   position: fixed;
   top: 0;
   left: 0;
-  padding: 0px; /* Adjust as needed */
-  z-index: 1050; /* Ensure the logo is above other elements */
+  padding: 0px; 
+  z-index: 1050; 
 }
 
 .feature-logo { 
-  max-width: 120px; /* Adjust as needed */
+  max-height: 70px; 
 }
 
 .navbar-with-logo {
-  z-index: 1000; /* Ensure the navbar is below the logo */
-  padding-left: 80px; /* Adjust to match the width of the logo container */
+  z-index: 1000; 
+  padding-left: 80px; 
 }
 
 .navbar-nav {
@@ -1107,5 +1146,5 @@ textarea {
 }
 
 .navbar-nav .nav-link {
-  margin-left: 50px; /* Adjust as needed */
+  margin-left: 50px; 
 }

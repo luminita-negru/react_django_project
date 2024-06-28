@@ -18,14 +18,13 @@ class LoginTest(unittest.TestCase):
         password = "luminita"
 
         try:
-            # Locate login elements and perform login with waits
             username_field = WebDriverWait(driver, 20).until(
-                EC.presence_of_element_located((By.NAME, "username"))  # Use correct name attribute
+                EC.presence_of_element_located((By.NAME, "username"))  
             )
             print("Username field found")
             
             password_field = WebDriverWait(driver, 20).until(
-                EC.presence_of_element_located((By.NAME, "password"))  # Use correct name attribute
+                EC.presence_of_element_located((By.NAME, "password"))  
             )
             print("Password field found")
             
@@ -38,11 +37,7 @@ class LoginTest(unittest.TestCase):
             password_field.send_keys(password)
             login_button.click()
 
-            # # Add assertions to verify successful login
-            # welcome_message = WebDriverWait(driver, 20).until(
-            #     EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Welcome')]"))
-            # )
-            # self.assertIsNotNone(welcome_message)
+
             print("Login successful")
 
         except Exception as e:

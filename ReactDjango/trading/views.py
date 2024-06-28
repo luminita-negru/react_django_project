@@ -7,6 +7,7 @@ from rest_framework import status
 from .models import UserProfile, Asset, Portfolio, Transaction
 from .utils import get_stock_data, calculate_market_price, is_order_expired, get_expiry_date
 from bson.decimal128 import Decimal128
+from bson.objectid import ObjectId
 
 class TradeView(APIView):
     permission_classes = [IsAuthenticated]
@@ -76,7 +77,7 @@ class TradeView(APIView):
         elif order_type == 'limit':
             state = 'pending'
             if transaction_type == 'buy':
-                total_price = quantity * min(price_by_user, price)
+                total_price = quantity * price
 
                 if price <= price_by_user and portfolio.balance.to_decimal() >= total_price:
                     portfolio.balance = portfolio.balance.to_decimal() - Decimal(str(total_price))
@@ -90,7 +91,7 @@ class TradeView(APIView):
                     price_by_user = price
 
             elif transaction_type == 'sell':
-                total_price = quantity * max(price_by_user, price)
+                total_price = quantity *  price
                 asset_item = list(filter(lambda x: x['symbol'] == symbol, portfolio.assets))
                 if  len(asset_item) > 0 and asset_item[0]['quantity'] >= quantity and price >= price_by_user:
                     asset_item[0]['quantity'] -= quantity
@@ -111,6 +112,53 @@ class TradeView(APIView):
             )
         return Response({'status': 'success', 'message': 'Transaction successful'}, status=status.HTTP_200_OK)
 
+    def get(self, request):
+        user_profile = UserProfile.objects.filter(user=request.user).first()
+        if not user_profile:
+            return Response({'status': 'error', 'message': 'User profile not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        portfolio = Portfolio.objects.filter(user_profile=user_profile).first()
+        if not portfolio:
+            return Response({'status': 'error', 'message': 'Portfolio not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        pending_transactions = Transaction.objects.filter(portfolio=portfolio, state='pending')
+        transactions_data = [
+            {
+                'id': str(tx.id),
+                'transaction_type': tx.transaction_type,
+                'symbol': tx.symbol,
+                'quantity': tx.quantity,
+                'price': str(tx.price.to_decimal()),
+                'transaction_date': tx.transaction_date,
+                'expiration_date': tx.expiration_date,
+                'state': tx.state
+            }
+            for tx in pending_transactions
+        ]
+
+        return Response({'pending_transactions': transactions_data}, status=status.HTTP_200_OK)
+
+    def delete(self, request, transaction_id):
+        try:
+            transaction_id = int(transaction_id)
+        except:
+            return Response({'status': 'error', 'message': 'Transaction id must be an integer'}, status=status.HTTP_400_BAD_REQUEST)
+        user_profile = UserProfile.objects.filter(user=request.user).first()
+        if not user_profile:
+            return Response({'status': 'error', 'message': 'User profile not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        portfolio = Portfolio.objects.filter(user_profile=user_profile).first()
+        if not portfolio:
+            return Response({'status': 'error', 'message': 'Portfolio not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            transaction = Transaction.objects.get(id=transaction_id, portfolio=portfolio, state='pending')
+            transaction.state = 'cancelled'
+            transaction.price = transaction.price.to_decimal()
+            transaction.save()
+            return Response({'status': 'success', 'message': 'Transaction cancelled successfully'}, status=status.HTTP_200_OK)
+        except Transaction.DoesNotExist:
+            return Response({'status': 'error', 'message': 'Transaction not found or not pending'}, status=status.HTTP_404_NOT_FOUND)
    
 class PortfolioView(APIView):
     permission_classes = [IsAuthenticated]

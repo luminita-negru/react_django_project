@@ -162,7 +162,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',  # Add your frontend URL here
+    'http://localhost:5173',  
 ]
 
 # CORS_ALLOWED_ALL_ORIGINS = False
@@ -185,17 +185,14 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
     'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
+    'BLACKLIST_AFTER_ROTATION': False,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 #news api
 ALPHA_VANTAGE_API_KEY = 'ZU8WHL5NC5B4MDE7'
 
-# INTERNAL_IPS = [
-#     "localhost",
-#     "127.0.0.1"
-# ]
+
 
 env = environ.Env()
 environ.Env.read_env()

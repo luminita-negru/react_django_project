@@ -1,4 +1,3 @@
-// src/component/FAQPage.jsx
 import React, { useState } from 'react';
 const faqData = [
   {

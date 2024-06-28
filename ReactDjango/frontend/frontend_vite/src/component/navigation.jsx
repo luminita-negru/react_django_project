@@ -22,7 +22,7 @@ export function Navigation({history}) {
     return (
       <div>
         <div className="logo-container">
-          <img src="/public/trade.png" alt="TradePlay Simulator" className="feature-logo" />
+          <img src="/trade.png" alt="TradePlay Simulator" className="feature-logo" />
         </div>
         <Navbar bg="dark" variant="dark" fixed="top" className="navbar-with-logo">
           <Nav className="me-auto">

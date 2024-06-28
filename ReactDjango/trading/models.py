@@ -1,4 +1,3 @@
-# models.py in trading app
 from djongo import models
 from django.contrib.auth import get_user_model
 
@@ -50,7 +49,7 @@ class Transaction(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     transaction_date = models.DateTimeField(auto_now_add=True)
     state = models.CharField(max_length=12, choices=TRANSATION_STATE, default='pending')
-    expiration_date = models.DateTimeField(null=True, blank=True)  # Add this field
+    expiration_date = models.DateTimeField(null=True, blank=True)  
 
     def __str__(self):
         return f"{self.transaction_type} {self.quantity} of {self.symbol} at {self.price}"

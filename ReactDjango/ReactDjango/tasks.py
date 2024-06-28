@@ -24,28 +24,34 @@ def limit_orders_check():
             portfolio = transaction.portfolio
 
             if transaction.transaction_type == 'buy':
-                price = min(transaction.price, cache[transaction.symbol][0])
-                if portfolio.balance.to_decimal() < Decimal(str(price * transaction.quantity)):
+                market_price = cache[transaction.symbol][1]
+                print(market_price, transaction.price)
+                if market_price > transaction.price:
                     continue
-                if transaction.price > price or cache[transaction.symbol][1] == price:
-                    portfolio.balance = portfolio.balance.to_decimal() - Decimal(str(price * transaction.quantity))
-                    asset_item = list(filter(lambda x: x['symbol'] == transaction.symbol, portfolio.assets))
-                    if len(asset_item) > 0:
-                        asset_item[0]['quantity'] += transaction.quantity
-                    else:
-                        portfolio.assets.append({'symbol': transaction.symbol, 'quantity': transaction.quantity})
-                    portfolio.save()
+                
+                portfolio.balance = portfolio.balance.to_decimal() - Decimal(str(market_price * transaction.quantity))
+                asset_item = list(filter(lambda x: x['symbol'] == transaction.symbol, portfolio.assets))
+                if len(asset_item) > 0:
+                    asset_item[0]['quantity'] += transaction.quantity
+                else:
+                    portfolio.assets.append({'symbol': transaction.symbol, 'quantity': transaction.quantity})
+                portfolio.save()
+                transaction.price = market_price
                 transaction.state = 'completed'
                 transaction.save()
             elif transaction.transaction_type == 'sell':
-                price = max(transaction.price, cache[transaction.symbol][1])
-                asset_item = list(filter(lambda x: x['symbol'] == transaction.symbol, portfolio.assets))
-                if  len(asset_item) > 0 and asset_item[0]['quantity'] >= transaction.quantity and (price > transaction.price or price == cache[transaction.symbol][1]):
-                    asset_item[0]['quantity'] -= transaction.quantity
-                    portfolio.balance = portfolio.balance.to_decimal() + Decimal(str(transaction.quantity * price))
-                    portfolio.save()
-                else:
+                market_price = cache[transaction.symbol][0]
+                if market_price < transaction.price:
                     continue
+                asset_item = list(filter(lambda x: x['symbol'] == transaction.symbol, portfolio.assets))
+                if  len(asset_item) > 0 and asset_item[0]['quantity'] >= transaction.quantity:
+                    asset_item[0]['quantity'] -= transaction.quantity
+                    portfolio.balance = portfolio.balance.to_decimal() + Decimal(str(transaction.quantity * market_price))
+                    portfolio.save()
+                    transaction.price = market_price
+                    transaction.state = 'completed'
+                    transaction.save()
+
 
 @shared_task
 def save_user_performance():

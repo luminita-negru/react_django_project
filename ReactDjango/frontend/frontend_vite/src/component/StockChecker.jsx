@@ -56,9 +56,9 @@ const StockChecker = () => {
     labels: Object.keys(historicalData || {}).map(x => {
       const date = new Date(x * 1);
       if (period === '1d') {
-        return date.toLocaleString(); // Show full date and time for 'this day'
+        return date.toLocaleString(); 
       } else {
-        return date.toLocaleDateString(); // Show only date for other periods
+        return date.toLocaleDateString(); 
       }
     }),
     datasets: [
@@ -80,13 +80,13 @@ const StockChecker = () => {
       legend: {
         position: 'top',
         labels: {
-          color: 'white' // Change legend text color to white
+          color: 'white' 
         }
       },
       title: {
         display: true,
         text: `${symbol} Stock Price`,
-        color: 'white' // Change title text color to white
+        color: 'white' 
       },
       tooltip: {
         mode: 'index',
@@ -103,10 +103,10 @@ const StockChecker = () => {
         title: {
           display: true,
           text: 'Time',
-          color: 'white' // Change x-axis title color to white
+          color: 'white' 
         },
         ticks: {
-          color: 'white' // Change x-axis ticks color to white
+          color: 'white' 
         }
       },
       y: {
@@ -114,10 +114,10 @@ const StockChecker = () => {
         title: {
           display: true,
           text: 'Price (USD)',
-          color: 'white' // Change y-axis title color to white
+          color: 'white' 
         },
         ticks: {
-          color: 'white' // Change y-axis ticks color to white
+          color: 'white' 
         }
       },
     },

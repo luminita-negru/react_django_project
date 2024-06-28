@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axiosConfig from '../interceptors/axiosConfig';
 
 const FinancialNews = () => {
     const [news, setNews] = useState([]);
@@ -6,12 +7,12 @@ const FinancialNews = () => {
     const [ticker, setTicker] = useState('AAPL');
 
     const fetchNews = (ticker) => {
-        fetch(`http://localhost:8000/api/financial-news/?ticker=${ticker}`)
+        axiosConfig.get(`http://localhost:8000/api/financial-news/?ticker=${ticker}`)
             .then(response => {
-                if (!response.ok) {
+                if (response.status !== 200) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                return response.json();
+                return response.data;
             })
             .then(data => {
                 if (data.error) {
@@ -26,7 +27,6 @@ const FinancialNews = () => {
             });
     };
 
-    // Fetch news when the component mounts
     useEffect(() => {
         fetchNews(ticker);
     }, []);

@@ -31,9 +31,11 @@ const Trade = () => {
   const [duration, setDuration] = useState('day');
   const [price, setPrice] = useState('');
   const [message, setMessage] = useState('');
+  const [isError, setIsError] = useState(false);
   const [chartData, setChartData] = useState(null);
   const [bidPrice, setBidPrice] = useState(null);
   const [askPrice, setAskPrice] = useState(null);
+  const [pendingTransactions, setPendingTransactions] = useState([]);
 
   useEffect(() => {
     if (symbol) {
@@ -44,6 +46,11 @@ const Trade = () => {
       return () => clearTimeout(delayDebounceFn);
     }
   }, [symbol]);
+
+  useEffect(() => {
+    fetchPendingTransactions();
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,11 +70,14 @@ const Trade = () => {
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       }
-    ).then((res) => setMessage(res.data.message))
-     .catch((e) => setMessage(e.response.data.message));
+    ).then((res) => {
+      setMessage(res.data.message);
+      setIsError(false);
+      fetchPendingTransactions();
+    })
+     .catch((e) => {setMessage(e.response.data.message); setIsError(true);});
   };
 
   const fetchStockData = async () => {
@@ -98,6 +108,24 @@ const Trade = () => {
       setAskPrice(response.data.info.ask);
     } catch (error) {
       console.error('Error fetching stock data', error);
+    }
+  };
+
+  const fetchPendingTransactions = async () => {
+    try {
+      const response = await axiosConfig.get('/api/trading/trade/');
+      setPendingTransactions(response.data.pending_transactions);
+    } catch (error) {
+      console.error('Error fetching pending transactions', error);
+    }
+  };
+
+  const cancelTransaction = async (transactionId) => {
+    try {
+      await axiosConfig.delete(`/api/trading/trade/${transactionId}/`);
+      fetchPendingTransactions();
+    } catch (error) {
+      console.error('Error cancelling transaction', error);
     }
   };
 
@@ -143,7 +171,7 @@ const Trade = () => {
           )}
           <button className="submit-button" type="submit">Submit</button>
         </form>
-        {message && <p className="message">{message}</p>}
+        {message && <p style={{color: isError?"#ff0000":"green"}} className="message">{message}</p>}
       </div>
       {chartData && (
         <div className="chart-container-trade">
@@ -151,6 +179,19 @@ const Trade = () => {
           <p>Bid Price: {bidPrice}</p>
           <p>Ask Price: {askPrice}</p>
           <Line data={chartData} />
+        </div>
+      )}
+      {pendingTransactions.length > 0 && (
+        <div className="pending-transactions">
+          <h3>Pending Transactions</h3>
+          <ul>
+            {pendingTransactions.map(tx => (
+              <li key={tx.id}>
+                {tx.symbol} - {tx.quantity} @ {tx.price} $ - {tx.transaction_type} 
+                <button onClick={() => cancelTransaction(tx.id)}>Cancel</button>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

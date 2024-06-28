@@ -23,11 +23,13 @@ axiosConfig.interceptors.response.use(
       if (refreshToken !== null) {
         try {
           const response = await axios.post(`${BASE_URL}/token/refresh/`, {refresh: refreshToken}, {headers: {
-            'Content-Type': 'application/json', // change according header type accordingly
+            'Content-Type': 'application/json',
           }});
           // don't use axious instance that already configured for refresh token api call
-          const newAccessToken = response.data.accessToken;
-          localStorage.setItem('access_token', newAccessToken);  //set new access token
+          const newAccessToken = response.data.access;
+          const newRefreshToken = response.data.refresh;
+          localStorage.setItem('access_token', newAccessToken); 
+          localStorage.setItem('refresh_token', newRefreshToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return axios(originalRequest); //recall Api with new token
         } catch (error) {

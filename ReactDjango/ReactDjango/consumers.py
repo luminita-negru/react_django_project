@@ -30,8 +30,6 @@ class PortofolioGet(AsyncWebsocketConsumer):
             assets, balance = await self.get_user_portfolio()
             result = []
             for asset in assets:
-                # Here you would fetch the latest price, e.g., from an external API
-                #latest_price = self.get_latest_price(asset)
                 ticker = yfinance.Ticker(asset['symbol'])
                 hist = ticker.history(interval='1m', period='1d')
                 close_price = hist['Close'].iloc[-1]

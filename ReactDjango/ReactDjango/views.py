@@ -13,6 +13,10 @@ import requests
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import stripe
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 def get_stock_data(request):
@@ -67,27 +71,29 @@ def get_stock_data(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
+class NewsView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        api_key = settings.ALPHA_VANTAGE_API_KEY
 
-def get_financial_news(request):
-    api_key = settings.ALPHA_VANTAGE_API_KEY
-    ticker = request.GET.get('ticker', 'AAPL')  # Default to AAPL if no ticker is provided
-    url = f'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={ticker}&apikey={api_key}'
+        ticker = request.query_params.get('ticker')
+        url = f'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={ticker}&apikey={api_key}'
 
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
-        data = response.json()
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
+            data = response.json()
+            
+            
+            if "feed" not in data:
+                return JsonResponse({'error': 'Unexpected response structure'}, status=500)
+            
+            return JsonResponse(data, safe=False)
+        except requests.exceptions.RequestException as e:
+            return JsonResponse({'error': str(e)}, status=500)
+        except ValueError as e:
+            return JsonResponse({'error': 'Invalid response format'}, status=500)
         
-        # Check if the response contains the expected data
-        if "feed" not in data:
-            return JsonResponse({'error': 'Unexpected response structure'}, status=500)
-        
-        return JsonResponse(data, safe=False)
-    except requests.exceptions.RequestException as e:
-        return JsonResponse({'error': str(e)}, status=500)
-    except ValueError as e:
-        return JsonResponse({'error': 'Invalid response format'}, status=500)
-    
 @csrf_exempt
 def contact_view(request):
     if request.method == 'POST':

@@ -39,7 +39,6 @@ class RegisterView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        #user = User.objects.get(username=request.data['username'])
         return Response({
             'message': 'User and portfolio created successfully.'
         }, status=status.HTTP_201_CREATED)
@@ -66,7 +65,7 @@ class UpdateProfileView(APIView):
         # Create or update Portfolio
         portfolio, created = Portfolio.objects.get_or_create(user_profile=user_profile)
         portfolio.portfolio_name = portfolio_name
-        portfolio.balance = user_profile.initial_balance  # Initial balance logic
+        portfolio.balance = user_profile.initial_balance  
         portfolio.save()
         
         return Response({'status': 'success', 'message': 'Profile updated successfully'}, status=status.HTTP_200_OK)
